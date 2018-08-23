@@ -1,9 +1,16 @@
 ---
 
 - name: config file for tac_plus
+  when: not tac_plus.external_config_file
   template:
-    src: "{{ playbook_dir }}/templates/{{ tac_plus_cfg }}"
+    src: tac_plus.conf.j2
     dest: /etc/tac_plus.conf
     mode: 00640
-    owner: root
-    group: root
+  notify: reload tac_plus
+- name: config file for tac_plus
+  when: tac_plus.external_config_file
+  template:
+    src: "{{ playbook_dir }}/{{ tac_plus.external_config_file }}"
+    dest: /etc/tac_plus.conf
+    mode: 00640
+  notify: reload tac_plus
