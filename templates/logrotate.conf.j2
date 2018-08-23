@@ -1,0 +1,14 @@
+/var/log/tac_plus_acc.log
+/var/log/tac_plus.acct
+/var/log/tac_plus.log
+{
+    sharedscripts
+    missingok
+    postrotate
+{% if ansible_service_mgr == "systemd" %}
+        /bin/systemctl restart tac_plus.service > /dev/null 2>/dev/null || true
+{% else %}
+        /sbin/service tac_plus restart > /dev/null 2>/dev/null || true
+{% endif %}
+    endscript
+}

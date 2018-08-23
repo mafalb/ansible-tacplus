@@ -7,6 +7,7 @@
     dest: /etc/tac_plus.conf
     mode: 00640
   notify: reload tac_plus
+
 - name: config file for tac_plus
   when: tac_plus.external_config_file
   template:
@@ -14,3 +15,10 @@
     dest: /etc/tac_plus.conf
     mode: 00640
   notify: reload tac_plus
+
+- name: logrotate config
+  template:
+    src: logrotate.conf.j2
+    dest: /etc/logrotate.d/tac_plus
+    backup: true
+
